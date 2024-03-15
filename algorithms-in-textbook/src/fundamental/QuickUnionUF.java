@@ -4,18 +4,18 @@ import edu.princeton.cs.algs4.StdIn;
 
 /******************************************************************************
  *  Original Author: Robert Sedgewick and Kevin Wayne
- *  Compilation:  javac QuickFindUF.java
- *  Execution:  java QuickFindUF < input.txt
+ *  Compilation:  javac QuickUnionUF.java
+ *  Execution:  java QuickUnionUF < input.txt
  *  Dependencies: StdIn.java StdOut.java
  *  Data files:   https://algs4.cs.princeton.edu/15uf/tinyUF.txt
  *                https://algs4.cs.princeton.edu/15uf/mediumUF.txt
  *                https://algs4.cs.princeton.edu/15uf/largeUF.txt
  *
- *  Quick-find algorithm.
+ *  Quick-union algorithm.
  ******************************************************************************/
 
-public class QuickFindUF {
-    private int[] id; // id[i] = component identifier of i
+public class QuickUnionUF {
+    private int[] parent; // parent[i] = parent of i
     private int count; // number of connected components (sets)
 
     /**
@@ -23,14 +23,14 @@ public class QuickFindUF {
      * {@code n} elements {@code 0} through {@code n-1}.
      * Initially, each element is in its own set.
      *
-     * @param n the number of elements
+     * @param  n the number of elements
      */
-    public QuickFindUF(int n) {
+    public QuickUnionUF(int n) {
         count = n;
-        id = new int[n];
+        parent = new int[n];
 
         for (int i = 0; i < n; i++) {
-            id[i] = i;
+            parent[i] = i;
         }
     }
 
@@ -40,54 +40,56 @@ public class QuickFindUF {
      * @param p index
      */
     private void validate(int p) {
-        int n = id.length;
+        int n = parent.length;
 
-        if (p < 0 || p >= n) {
+        if (p < -1 || p >= n) {
             throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
         }
     }
 
     /**
-     * Get component identifier for {@code p}
+     * Find the root of element {@code p}.
      *
-     * @param p an element
-     * @return component identifier (0 to n-1)
+     * @param  p an element
+     * @return the root of element {@code p}
      */
     public int find(int p) {
         validate(p);
-        return id[p];
+
+        while (p != parent[p]) {
+            p = parent[p];
+        }
+
+        return p;
     }
 
     /**
      * Check whether {@code p} and {@code q} are in the same set
      *
-     * @param p an element
-     * @param q the other element
-     * @return {@code true} if {@code p} and {@code q} are in the same set
+     * @param  p one element
+     * @param  q the other element
+     * @return {@code true} if {@code p} and {@code q} have the same root
      */
     public boolean connected(int p, int q) {
         return find(p) == find(q);
     }
 
     /**
-     * Add connection between {@code p} and {@code q}
-     * by merging the set containing element {@code p}
-     * into the set containing element {@code q}
-     * @param p an element
-     * @param q the other element
+     * Merges the set containing element {@code p}
+     * with the set containing element {@code q}
+     * by changing the parent of root {@code p}
+     * with the root of {@code q}
+     *
+     * @param  p one element
+     * @param  q the other element
      */
     public void union(int p, int q) {
-        int pID = find(p);
-        int qID = find(q);
+        int rootP = find(p);
+        int rootQ = find(q);
 
-        if (pID == qID) return;
+        if (rootP == rootQ) return;
 
-        for (int i = 0; i < id.length; i++) {
-            if (id[i] == pID) {
-                id[i] = qID;
-            }
-        }
-
+        parent[rootP] = rootQ;
         count--;
     }
 
@@ -109,7 +111,7 @@ public class QuickFindUF {
      */
     public static void main(String[] args) {
         int n = StdIn.readInt();
-        QuickFindUF uf = new QuickFindUF(n);
+        QuickUnionUF uf = new QuickUnionUF(n);
 
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();

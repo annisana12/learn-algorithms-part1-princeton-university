@@ -6,20 +6,20 @@ import edu.princeton.cs.algs4.StdIn;
 import java.util.Arrays;
 
 /******************************************************************************
- *  Compilation:  javac fundamental.BinarySearch.java
- *  Execution:    java fundamental.BinarySearch allowlist.txt < input.txt
+ *  Compilation:  javac BinarySearch.java
+ *  Execution:    java BinarySearch allowlist.txt < input.txt
  *  Dependencies: In.java StdIn.java
  *  Data files:   https://algs4.cs.princeton.edu/11model/tinyAllowlist.txt
  *                https://algs4.cs.princeton.edu/11model/tinyText.txt
  *                https://algs4.cs.princeton.edu/11model/largeAllowlist.txt
  *                https://algs4.cs.princeton.edu/11model/largeText.txt
  *
- *  % java fundamental.BinarySearch tinyAllowlist.txt < tinyText.txt
+ *  % java BinarySearch tinyAllowlist.txt < tinyText.txt
  *  50
  *  99
  *  13
  *
- *  % java fundamental.BinarySearch largeAllowlist.txt < largeText.txt | more
+ *  % java BinarySearch largeAllowlist.txt < largeText.txt | more
  *  499569
  *  984875
  *  295754
