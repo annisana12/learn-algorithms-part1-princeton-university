@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdIn;
  *  Original Author: Robert Sedgewick and Kevin Wayne
  *  Compilation:  javac QuickFindUF.java
  *  Execution:  java QuickFindUF < input.txt
- *  Dependencies: StdIn.java StdOut.java
+ *  Dependencies: StdIn.java
  *  Data files:   https://algs4.cs.princeton.edu/15uf/tinyUF.txt
  *                https://algs4.cs.princeton.edu/15uf/mediumUF.txt
  *                https://algs4.cs.princeton.edu/15uf/largeUF.txt

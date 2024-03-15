@@ -4,18 +4,19 @@ import edu.princeton.cs.algs4.StdIn;
 
 /******************************************************************************
  *  Original Author: Robert Sedgewick and Kevin Wayne
- *  Compilation:  javac QuickUnionUF.java
- *  Execution:  java QuickUnionUF < input.txt
+ *  Compilation:  javac WeightedQuickUnionUF.java
+ *  Execution:  java WeightedQuickUnionUF < input.txt
  *  Dependencies: StdIn.java
  *  Data files:   https://algs4.cs.princeton.edu/15uf/tinyUF.txt
  *                https://algs4.cs.princeton.edu/15uf/mediumUF.txt
  *                https://algs4.cs.princeton.edu/15uf/largeUF.txt
  *
- *  Quick-union algorithm.
+ *  Weighted quick-union (without path compression).
  ******************************************************************************/
 
-public class QuickUnionUF {
+public class WeightedQuickUnionUF {
     private int[] parent; // parent[i] = parent of i
+    private int[] size; // size[i] = number of elements in subtree rooted at i
     private int count; // number of connected components (sets)
 
     /**
@@ -25,12 +26,14 @@ public class QuickUnionUF {
      *
      * @param  n the number of elements
      */
-    public QuickUnionUF(int n) {
+    public WeightedQuickUnionUF(int n) {
         count = n;
         parent = new int[n];
+        size = new int[n];
 
         for (int i = 0; i < n; i++) {
             parent[i] = i;
+            size[i] = 1;
         }
     }
 
@@ -75,10 +78,8 @@ public class QuickUnionUF {
     }
 
     /**
-     * Merges the set containing element {@code p}
-     * with the set containing element {@code q}
-     * by changing the parent of root {@code p}
-     * with the root of {@code q}
+     * Merges the set containing element {@code p} with the set
+     * containing element {@code q}.
      *
      * @param  p one element
      * @param  q the other element
@@ -89,7 +90,17 @@ public class QuickUnionUF {
 
         if (rootP == rootQ) return;
 
-        parent[rootP] = rootQ;
+        int sizeRootP = size[rootP];
+        int sizeRootQ = size[rootQ];
+
+        if (sizeRootP < sizeRootQ) {
+            parent[rootP] = rootQ;
+            size[rootQ] += sizeRootP;
+        } else {
+            parent[rootQ] = rootP;
+            size[rootP] += sizeRootQ;
+        }
+
         count--;
     }
 
@@ -111,7 +122,7 @@ public class QuickUnionUF {
      */
     public static void main(String[] args) {
         int n = StdIn.readInt();
-        QuickUnionUF uf = new QuickUnionUF(n);
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
 
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
