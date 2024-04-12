@@ -4,17 +4,17 @@ import edu.princeton.cs.algs4.StdIn;
 
 /******************************************************************************
  *  Original Author: Robert Sedgewick and Kevin Wayne
- *  Compilation:  javac QuickUnionPathHalvingUF.java
- *  Execution:  java QuickUnionPathHalvingUF < input.txt
+ *  Compilation:  javac QuickUnionPathSplittingUF.java
+ *  Execution:  java QuickUnionPathSplittingUF < input.txt
  *  Dependencies: StdIn.java
  *  Data files:   https://algs4.cs.princeton.edu/15uf/tinyUF.txt
  *                https://algs4.cs.princeton.edu/15uf/mediumUF.txt
  *                https://algs4.cs.princeton.edu/15uf/largeUF.txt
  *
- *  Quick-union with path halving algorithm.
+ *  Quick-union with path splitting algorithm.
  ******************************************************************************/
 
-public class QuickUnionPathHalvingUF {
+public class QuickUnionPathSplittingUF {
     private int[] parent; // parent[i] = parent of i
     private int count; // number of connected components (sets)
 
@@ -25,7 +25,7 @@ public class QuickUnionPathHalvingUF {
      *
      * @param  n the number of elements
      */
-    public QuickUnionPathHalvingUF(int n) {
+    public QuickUnionPathSplittingUF(int n) {
         count = n;
         parent = new int[n];
 
@@ -57,8 +57,9 @@ public class QuickUnionPathHalvingUF {
         validate(p);
 
         while (p != parent[p]) {
-            parent[p] = parent[parent[p]]; // Path compression by halving
-            p = parent[p]; // pass the traversal of original parent[p] and directly traverse to the grandparent of p
+            int next = parent[p];
+            parent[p] = parent[parent[p]]; // Path splitting
+            p = next;
         }
 
         return p;
@@ -112,7 +113,7 @@ public class QuickUnionPathHalvingUF {
      */
     public static void main(String[] args) {
         int n = StdIn.readInt();
-        QuickUnionPathHalvingUF uf = new QuickUnionPathHalvingUF(n);
+        QuickUnionPathSplittingUF uf = new QuickUnionPathSplittingUF(n);
 
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
