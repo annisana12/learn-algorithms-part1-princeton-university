@@ -12,6 +12,9 @@ import edu.princeton.cs.algs4.StdIn;
  * If one of the connected components is {1, 2, 6, 9},
  * then the find() method should return 9 for each of the
  * four elements in the connected components
+ *
+ * Data files for testing: src/data/union_find_canonical_element_data.txt
+ *
 ***********************************************************/
 
 public class UnionFindCanonicalElement {

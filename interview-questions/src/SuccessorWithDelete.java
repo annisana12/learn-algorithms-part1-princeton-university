@@ -13,7 +13,8 @@ import edu.princeton.cs.algs4.StdIn;
  * in the worst case.
  *
  *
- * Data files for testing:   src/data/
+ * Data files for testing: src/data/successor_with_delete_data.txt
+ *
  ***********************************************************/
 
 public class SuccessorWithDelete {
