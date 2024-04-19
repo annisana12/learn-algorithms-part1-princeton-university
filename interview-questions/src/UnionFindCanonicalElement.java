@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdIn;
+
 /**********************************************************
  * Question:
  * Add a method find() to the union-find data type so that
@@ -76,5 +78,24 @@ public class UnionFindCanonicalElement {
 
     public int count() {
         return count;
+    }
+
+    public static void main(String[] args) {
+        int n = StdIn.readInt();
+        int componentTobeFind = StdIn.readInt();
+        UnionFindCanonicalElement uf = new UnionFindCanonicalElement(n);
+
+        // Create connection
+        while (!StdIn.isEmpty()) {
+            int p = StdIn.readInt();
+            int q = StdIn.readInt();
+
+            if (uf.connected(p, q)) continue;
+
+            uf.union(p, q);
+            System.out.println(p + " " + q);
+        }
+
+        System.out.println("Max component in set containing " + componentTobeFind + " : " + uf.find(componentTobeFind));
     }
 }
