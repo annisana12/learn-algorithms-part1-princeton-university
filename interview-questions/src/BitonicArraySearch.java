@@ -78,51 +78,11 @@ public class BitonicArraySearch {
         return binarySearch(arr, key, false, lo, arr.length - 1);
     }
 
-    public static int signingBonusV2(int[] arr, int key) {
-        // Check increasing part
-        int lo = 0;
-        int hi = arr.length - 1;
-        int initialMid = hi / 2;
-        int searchLeft = -1;
-        int maxLeftIndex = initialMid;
-        int iteration = 1;
-
-        while (lo <= hi) {
-            // Determine max number index in left initialMid
-            int indexNearInitialMid = Math.max(initialMid - iteration, 0);
-            int indexNearZero = Math.min(iteration - 1, initialMid);
-
-            if (arr[indexNearInitialMid] >= arr[maxLeftIndex]) maxLeftIndex = indexNearInitialMid;
-            if (arr[indexNearZero] >= arr[maxLeftIndex]) maxLeftIndex = indexNearZero;
-
-            // Perform binary search
-            int mid = (lo + hi) / 2;
-            int midValue = arr[mid];
-
-            if (key > midValue) {
-                lo = mid + 1;
-            } else if (key < midValue) {
-                hi = mid - 1;
-            } else {
-                searchLeft = mid;
-                break;
-            }
-
-            iteration++;
-        }
-
-        if (searchLeft != -1) return searchLeft;
-
-        // Check decreasing part
-        return binarySearch(arr, key, false, maxLeftIndex, arr.length - 1);
-    }
-
     public static void runTest(int[] arr, int key) {
         System.out.println("Array                           : " + Arrays.toString(arr));
         System.out.println("Search                          : " + key);
         System.out.println("Result index (standard version) : " + standardVersion(arr, key));
         System.out.println("Result index (signing bonus)    : " + signingBonus(arr, key));
-        System.out.println("Result index (signing bonus v2) : " + signingBonusV2(arr, key));
         System.out.println("================================================================");
     }
 
