@@ -58,24 +58,51 @@ public class BitonicArraySearch {
         else return binarySearch(arr, key, false, maxNumberIndex, arr.length - 1);
     }
 
-    /**
-     * For this case, I still have no idea how to
-     * solve the problem without finding the peak
-     */
     public static int signingBonus(int[] arr, int key) {
         // Check increasing part
-        int searchLeft = binarySearch(arr, key, true, 0, arr.length - 1);
+        int lo = 0;
+        int hi = arr.length - 1;
+        int initialMid = hi / 2;
+        int searchLeft = -1;
+
+        int startLeft = 0;
+        int endLeft = initialMid;
+        int maxLeftIndex = initialMid;
+
+        while (lo <= hi) {
+            // Determine max number index in left initialMid in maximum lg n steps
+            int midLeft = (startLeft + endLeft) / 2;
+            int leftMid = midLeft > 0 ? midLeft - 1 : 0;
+            int rightMid = midLeft < initialMid ? midLeft + 1 : initialMid;
+
+            if (arr[leftMid] > arr[midLeft]) {
+                if (arr[leftMid] > arr[maxLeftIndex]) maxLeftIndex = leftMid;
+                endLeft = midLeft - 1;
+            } else if (arr[rightMid] > arr[midLeft]) {
+                if (arr[rightMid] > arr[maxLeftIndex]) maxLeftIndex = rightMid;
+                startLeft = midLeft + 1;
+            } else {
+                if (arr[midLeft] > arr[maxLeftIndex]) maxLeftIndex = midLeft;
+            }
+
+            // Perform binary search
+            int mid = (lo + hi) / 2;
+            int midValue = arr[mid];
+
+            if (key > midValue) {
+                lo = mid + 1;
+            } else if (key < midValue) {
+                hi = mid - 1;
+            } else {
+                searchLeft = mid;
+                break;
+            }
+        }
+
         if (searchLeft != -1) return searchLeft;
 
         // Check decreasing part
-        int mid = (arr.length - 1) / 2;
-        int lo = 0;
-
-        if (arr[mid] > arr[0] && key > arr[mid]) {
-            lo = maxNumberIndex(arr, mid);
-        }
-
-        return binarySearch(arr, key, false, lo, arr.length - 1);
+        return binarySearch(arr, key, false, maxLeftIndex, arr.length - 1);
     }
 
     public static void runTest(int[] arr, int key) {
@@ -95,7 +122,7 @@ public class BitonicArraySearch {
         runTest(new int[]{1, 3, 5, 7, 9, 15, 18, 16, 12, 8, 2}, 16);
         runTest(new int[]{1, 3, 5, 15, 14, 12, 8, 6, 4}, 12);
         runTest(new int[]{3, 5, 7, 15, 12, 8, 6, 4, 2}, 15);
-        runTest(new int[]{3, 23, 21, 19, 17, 15, 13, 12, 11, 10, 9, 8, 6, 4, 2}, 23);
+        runTest(new int[]{3, 25, 23, 21, 19, 17, 15, 13, 12, 11, 10, 9, 8, 7, 6, 4, 2}, 15);
         runTest(new int[]{1, 3, 5, 7}, 3);
         runTest(new int[]{12, 8, 6, 4, 2}, 4);
     }
