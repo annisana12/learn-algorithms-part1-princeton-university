@@ -5,8 +5,6 @@ import edu.princeton.cs.algs4.StdStats;
 import fundamental.UF;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.OptionalInt;
 
 /******************************************************************************
  *  Original Author: Robert Sedgewick and Kevin Wayne
@@ -96,6 +94,6 @@ public class ErdosRenyi {
                 .map(val -> Math.pow(val - mean, 2))
                 .sum();
 
-        return Math.sqrt(sumOfSquaredDiff / array.length);
+        return Math.sqrt(sumOfSquaredDiff / (array.length - 1));
     }
 }
