@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  ******************************************************************************/
 
 public class Bag<E> implements Iterable<E> {
-    private Node<E> first; // Least recently added item
+    private Node<E> first; // Recently added item
     private int n; // Bag size
 
     private static class Node<E> {
