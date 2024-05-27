@@ -5,13 +5,13 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class RandomizedQueue<E> implements Iterable<E> {
-    private E[] queue;
-    private int n; // Number of items
+public class RandomizedQueue<Item> implements Iterable<Item> {
     private static final int INIT_CAPACITY = 10;
+    private Item[] queue;
+    private int n; // Number of items
 
     public RandomizedQueue() {
-        queue = (E[]) new Object[INIT_CAPACITY];
+        queue = (Item[]) new Object[INIT_CAPACITY];
         n = 0;
     }
 
@@ -24,7 +24,7 @@ public class RandomizedQueue<E> implements Iterable<E> {
     }
 
     private void resize(int capacity) {
-        E[] newQueue = (E[]) new Object[capacity];
+        Item[] newQueue = (Item[]) new Object[capacity];
 
         for (int i = 0; i < n; i++) {
             newQueue[i] = queue[i];
@@ -38,7 +38,7 @@ public class RandomizedQueue<E> implements Iterable<E> {
      *
      * @param item is the element to be inserted to the queue
      */
-    public void enqueue(E item) {
+    public void enqueue(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("Item can't be null");
         }
@@ -62,11 +62,11 @@ public class RandomizedQueue<E> implements Iterable<E> {
      *
      * @return random item removed
      */
-    public E dequeue() {
+    public Item dequeue() {
         assertEmptyQueue();
 
         int randomIndex = StdRandom.uniformInt(n);
-        E removedItem = queue[randomIndex];
+        Item removedItem = queue[randomIndex];
         queue[randomIndex] = queue[--n];
         queue[n] = null;
 
@@ -82,7 +82,7 @@ public class RandomizedQueue<E> implements Iterable<E> {
      *
      * @return random item
      */
-    public E sample() {
+    public Item sample() {
         assertEmptyQueue();
 
         int randomIndex = StdRandom.uniformInt(n);
@@ -93,17 +93,17 @@ public class RandomizedQueue<E> implements Iterable<E> {
      * Iterate over items in randomized queue in random order
      */
     @Override
-    public Iterator<E> iterator() {
+    public Iterator<Item> iterator() {
         return new RandomArrayIterator();
     }
 
-    private class RandomArrayIterator implements Iterator<E> {
-        private E[] arr;
+    private class RandomArrayIterator implements Iterator<Item> {
+        private Item[] arr;
         private int n;
 
         public RandomArrayIterator() {
             n = size();
-            arr = (E[]) new Object[n];
+            arr = (Item[]) new Object[n];
 
             for (int i = 0; i < n; i++) {
                 arr[i] = queue[i];
@@ -116,13 +116,13 @@ public class RandomizedQueue<E> implements Iterable<E> {
         }
 
         @Override
-        public E next() {
+        public Item next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
 
             int randomIndex = StdRandom.uniformInt(n);
-            E item = arr[randomIndex];
+            Item item = arr[randomIndex];
             arr[randomIndex] = arr[--n];
             arr[n] = null;
 
