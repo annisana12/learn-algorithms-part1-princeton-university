@@ -25,6 +25,7 @@ public class MergeSmallerAuxiliaryArray {
     }
 
     public static <T extends Comparable<T>> void merge(T[] a, T[] aux, int lo, int mid, int hi) {
+        // Copy only the left half to the auxiliary array
         for (int k = lo; k <= mid; k++) {
             aux[k] = a[k];
         }
@@ -33,7 +34,7 @@ public class MergeSmallerAuxiliaryArray {
         int j = mid + 1;
 
         for (int k = lo; k <= hi; k++) {
-            if (i > mid) a[k] = a[j++];
+            if (i > mid) break; // No need to copy, elements are already in place
             else if (j > hi) a[k] = aux[i++];
             else if (less(a[j], aux[i])) a[k] = a[j++];
             else a[k] = aux[i++];
@@ -52,8 +53,8 @@ public class MergeSmallerAuxiliaryArray {
 
         String[] aux = new String[n];
 
+        System.out.println("Original array : " + Arrays.toString(a));
         merge(a, aux, lo, mid, hi);
-
-        System.out.println(Arrays.toString(a));
+        System.out.println("Merged array : " + Arrays.toString(a));
     }
 }
